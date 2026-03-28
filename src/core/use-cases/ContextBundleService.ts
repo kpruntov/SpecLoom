@@ -1,6 +1,6 @@
 import { GraphDatabase } from '../../infrastructure/sqlite/GraphDatabase.js';
 import { SpecNode } from '../domain/SpecNode.js';
-import type { ContextBundle } from '../interfaces/ContextBundle.js';
+import type { ContextBundle, FutureTaskSummary } from '../interfaces/ContextBundle.js';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 
@@ -60,10 +60,25 @@ export class ContextBundleService {
             }
         }
 
+        // 3. Build future-tasks out-of-scope map
+        const future_tasks: FutureTaskSummary[] = this.db.getAllNodes()
+            .filter(n => n.type === 'execution_task' && n.id !== taskId)
+            .filter(n => {
+                const status = n.content?.status;
+                return status !== 'Done' && status !== 'Verified';
+            })
+            .map(n => ({
+                id: n.id,
+                title: n.content?.title || '(untitled)',
+                status: n.content?.status || 'Unknown'
+            }))
+            .sort((a, b) => a.id.localeCompare(b.id));
+
         return {
             task: taskNode,
             graph: Array.from(graphNodes.values()),
-            files
+            files,
+            future_tasks
         };
     }
 }

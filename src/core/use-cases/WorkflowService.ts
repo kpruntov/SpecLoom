@@ -7,6 +7,12 @@ import { simpleGit } from 'simple-git';
 /**
  * @trace TASK-063 (Identity Guardrails & Diff)
  */
+export interface FutureTaskSummary {
+  id: string;
+  title: string;
+  status: string;
+}
+
 export interface ContextBundle {
   task: any;
   requirements: any[];
@@ -14,6 +20,7 @@ export interface ContextBundle {
   adrs: any[];
   references: any[];
   code_files: Record<string, string>;
+  future_tasks: FutureTaskSummary[];
 }
 
 export class WorkflowService {
@@ -35,7 +42,8 @@ export class WorkflowService {
       constraints: [],
       adrs: [],
       references: [],
-      code_files: {}
+      code_files: {},
+      future_tasks: []
     };
 
     // 1. Get Traces (Upstream)
@@ -73,6 +81,21 @@ export class WorkflowService {
             }
         }
     }
+
+    // 3. Build future-tasks out-of-scope map (all non-Done/Verified execution tasks except this one)
+    const allNodes = this.db.getAllNodes();
+    bundle.future_tasks = allNodes
+      .filter(n => n.type === 'execution_task' && n.id !== taskId)
+      .filter(n => {
+        const status = n.content?.status;
+        return status !== 'Done' && status !== 'Verified';
+      })
+      .map(n => ({
+        id: n.id,
+        title: n.content?.title || '(untitled)',
+        status: n.content?.status || 'Unknown'
+      }))
+      .sort((a, b) => a.id.localeCompare(b.id));
 
     return bundle;
   }
