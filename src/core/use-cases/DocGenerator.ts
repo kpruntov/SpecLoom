@@ -45,6 +45,9 @@ export class DocGenerator {
             adrs: [],
             apis: [],
             data_models: [],
+            lcomps: [],
+            pcomps: [],
+            fchains: [],
             product_context: {} // Special singleton
         };
 
@@ -61,10 +64,9 @@ export class DocGenerator {
                 case 'functional_requirement': model.functional_requirements.push(content); break;
                 case 'constraint': model.constraints.push(content); break;
                 case 'assumption': model.assumptions.push(content); break;
-                case 'logical_component':
-                case 'physical_component':
-                case 'functional_chain':
-                    model.views.push(content); break;
+                case 'logical_component': model.lcomps.push(content); break;
+                case 'physical_component': model.pcomps.push(content); break;
+                case 'functional_chain': model.fchains.push(content); break;
                 case 'adr': model.adrs.push(content); break;
                 case 'api_contract': model.apis.push(content); break;
                 case 'data_model': model.data_models.push(content); break;

@@ -1,21 +1,25 @@
 {
   "id": "TASK-004",
   "title": "Create Execution Plan",
-  "type": "process",
+  "type": "Process",
   "routine": "Process",
   "status": "Pending",
-  "priority": "High",
+  "priority": 1,
   "description": "Decompose the design into actionable implementation tasks.",
-  "ai_instructions": "You MUST follow the Planner Agent Protocol (`planner_agent_prompt.md`). Prioritize Foundation tasks.",
-  "dependencies": ["TASK-003"],
+  "ai_instructions": ["You MUST follow the Planner Agent Protocol (`planner_agent_prompt.md`) and procedure (`procedure_planning.md`). Prioritize Foundation tasks."],
+  "dependencies": [
+    "TASK-003"
+  ],
   "trace_to": {
-    "system_requirements": ["SYS-DEFINE"]
+    "system_requirements": [
+      "SYS-DEFINE"
+    ]
   },
   "execution_steps": [
     "Run 'loom start TASK-004'",
     "Run 'loom context TASK-004'",
     "Identify Foundation Tasks",
-    "Decompose FRs into Feature Tasks",
+    "Decompose Functional Chains into Feature Tasks",
     "Sequence Dependencies",
     "Run 'loom next' to verify plan",
     "Ask user for confirmation to complete task",
@@ -23,7 +27,7 @@
   ],
   "definition_of_done": [
     "Foundation tasks identified",
-    "All high-priority FRs covered by tasks",
+    "All architecture and functions covered by tasks",
     "Dependency graph is acyclic",
     "Validation passes"
   ]

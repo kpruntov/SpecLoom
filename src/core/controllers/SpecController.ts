@@ -65,8 +65,8 @@ export class SpecController {
   /**
    * @trace TASK-068
    */
-  public async init(brownfieldPath?: string, isSimpleMode?: boolean) {
-      const result = await this.initService.init(brownfieldPath, isSimpleMode);
+  public async init() {
+      const result = await this.initService.init();
       this._initializeServices(); // Wake up services immediately
       return result;
   }

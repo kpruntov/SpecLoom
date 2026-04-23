@@ -9,25 +9,10 @@ export class InitService {
     /**
      * @trace TASK-068
      */
-    public async init(brownfieldPath?: string, isSimpleMode?: boolean) {
+    public async init() {
         const specDir = join(this.projectRoot, '.spec');
         if (existsSync(specDir)) {
             return { message: 'SpecLoom is already initialized.' };
-        }
-
-        // Handle interactive prompt if not specified
-        let simple = isSimpleMode;
-        if (simple === undefined) {
-            const rl = createInterface({
-                input: process.stdin,
-                output: process.stdout
-            });
-            simple = await new Promise<boolean>(resolve => {
-                rl.question('Do you want to initialize in Simple (Greenfield) Mode? [Y/n] ', (answer) => {
-                    rl.close();
-                    resolve(answer.toLowerCase() !== 'n');
-                });
-            });
         }
 
         // Create Directory Structure
@@ -45,28 +30,22 @@ export class InitService {
         dirs.forEach(d => mkdirSync(join(this.projectRoot, d), { recursive: true }));
 
         // Copy Assets (Schemas & Templates) from Package Distribution
-        // Assuming: dist/src/core/use-cases/InitService.js -> ../../../assets/
+        // Robustly find the assets directory relative to the current file.
+        // This works for both distributed (`dist`) and development (`src`) structures.
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = dirname(__filename);
-        const assetsDir = resolve(__dirname, '../../../assets');
+        const assetsDir = resolve(__dirname, '../../assets');
         
         if (existsSync(assetsDir)) {
              cpSync(join(assetsDir, 'schemas'), join(this.projectRoot, '.spec/core/schemas'), { recursive: true });
              cpSync(join(assetsDir, 'templates'), join(this.projectRoot, '.spec/core/templates'), { recursive: true });
              cpSync(join(assetsDir, 'protocol'), join(this.projectRoot, '.spec/core/protocol'), { recursive: true });
         } else {
-             // Development Fallback (if running ts-node directly)
-             const devAssetsDir = resolve(process.cwd(), 'src/assets');
-             if (existsSync(devAssetsDir)) {
-                  cpSync(join(devAssetsDir, 'schemas'), join(this.projectRoot, '.spec/core/schemas'), { recursive: true });
-                  cpSync(join(devAssetsDir, 'templates'), join(this.projectRoot, '.spec/core/templates'), { recursive: true });
-                  cpSync(join(devAssetsDir, 'protocol'), join(this.projectRoot, '.spec/core/protocol'), { recursive: true });
-             } else {
-                  console.warn('Warning: Could not find assets directory to scaffold .spec/core.');
-                  // Create empty dirs as fallback
-                  mkdirSync(join(this.projectRoot, '.spec/core/schemas'), { recursive: true });
-                  mkdirSync(join(this.projectRoot, '.spec/core/templates'), { recursive: true });
-             }
+             console.warn(`Warning: Could not find assets directory to scaffold .spec/core. Looked in: ${assetsDir}`);
+             // Create empty dirs as fallback
+             mkdirSync(join(this.projectRoot, '.spec/core/schemas'), { recursive: true });
+             mkdirSync(join(this.projectRoot, '.spec/core/templates'), { recursive: true });
+             mkdirSync(join(this.projectRoot, '.spec/core/protocol'), { recursive: true });
         }
 
         // Create Registry
@@ -82,8 +61,8 @@ export class InitService {
         };
         writeFileSync(join(this.projectRoot, '.spec/data/00_infastructure/sys_define.json'), JSON.stringify(sysDefine, null, 2));
 
-        // Bootstrap Meta-Tasks
-        const bootstrappedTasksDir = join(this.projectRoot, '.spec/core/templates/tasks/bootstrapped');
+        // Bootstrap Meta-Tasks from templates
+        const bootstrappedTasksDir = join(assetsDir, 'templates/tasks/bootstrapped');
         if (existsSync(bootstrappedTasksDir)) {
             const files = readdirSync(bootstrappedTasksDir);
             for (const file of files) {
@@ -97,44 +76,29 @@ export class InitService {
             }
         }
 
-        // Create Brownfield Context if applicable
-        if (brownfieldPath) {
-             const ctx = {
-                 id: "CTX-001",
-                 title: "Brownfield Product Context",
-                 description: `Legacy codebase at ${brownfieldPath}`,
-                 scope: "Migration and Feature Addition"
-             };
-             writeFileSync(join(this.projectRoot, '.spec/data/01_context/product_context.json'), JSON.stringify(ctx, null, 2));
-        }
-
-        if (simple) {
-            const helloTask = {
-                id: "TASK-001",
-                title: "Hello World: Your First Feature",
-                type: "execution_task",
-                status: "Pending",
-                routine: "Feature",
-                "verification_regime": "Automated",
-                description: "Welcome to SpecLoom! This is your first task. To complete it, you just need to run 'loom start TASK-001' and then 'loom complete TASK-001'.",
-                "dependencies": [],
-                priority: 100,
-                context: {},
-                execution_steps: [
-                    "Run 'loom start TASK-001'",
-                    "Run 'loom complete TASK-001'"
-                ],
-                definition_of_done: [
-                    "Task is marked as completed."
-                ],
-                trace_to: {
-                    "system_requirements": ["SYS-DEFINE"]
-                }
-            };
-            writeFileSync(join(this.projectRoot, '.spec/data/06_execution/task_001_hello_world.json'), JSON.stringify(helloTask, null, 2));
-            return { message: 'SpecLoom initialized successfully in Simple Mode. Hello World task generated.' };
-        }
-
-        return { message: 'SpecLoom initialized successfully.' };
+        // Create a welcoming "Hello World" task.
+        const helloTask = {
+            id: "TASK-000",
+            title: "Hello World: Your First Task",
+            type: "Process",
+            routine: "Manual",
+            status: "Pending",
+            description: "Welcome to SpecLoom! This is a simple task to get you started. To complete it, run 'loom start TASK-000' and then 'loom complete TASK-000'.",
+            dependencies": [],
+            priority: 0,
+            execution_steps: [
+                "Run 'loom start TASK-000'",
+                "Run 'loom complete TASK-000'"
+            ],
+            definition_of_done: [
+                "Task is marked as 'Done'."
+            ],
+            trace_to: {
+                "system_requirements": ["SYS-DEFINE"]
+            }
+        };
+        writeFileSync(join(this.projectRoot, '.spec/data/06_execution/task_000_hello_world.json'), JSON.stringify(helloTask, null, 2));
+        
+        return { message: 'SpecLoom initialized successfully. Your first task is TASK-000.' };
     }
 }

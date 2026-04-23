@@ -1,12 +1,12 @@
 {
   "id": "TASK-001",
   "title": "Establish Project Context",
-  "type": "process",
+  "type": "Process",
   "routine": "Process",
   "status": "Pending",
-  "priority": "High",
+  "priority": 100,
   "description": "Define the Mission, Stakeholders, and Business Rules. This is the foundation of the project.",
-  "ai_instructions": "You MUST follow the Requirements Agent Protocol (`requirements_agent_prompt.md`). Focus on `CTX`, `STK`, and `BR` artifacts.",
+  "ai_instructions": ["You MUST follow the Requirements Agent Protocol (`requirements_agent_prompt.md`). Focus on `CTX`, `STK`, and `BR` artifacts."],
   "dependencies": [],
   "trace_to": {
     "system_requirements": ["SYS-DEFINE"]

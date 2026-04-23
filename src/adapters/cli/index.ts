@@ -27,13 +27,11 @@ const getController = () => {
 
 program
   .command('init')
-  .description('Initialize SpecLoom in the current directory')
-  .option('--brownfield <path>', 'Path to existing source code')
-  .option('--greenfield', 'Start a new project from scratch')
-  .action(async (options) => {
+  .description('Initialize a new SpecLoom project in the current directory')
+  .action(async () => {
     try {
         // @trace TASK-068
-        const result = await getController().init(options.brownfield, options.greenfield);
+        const result = await getController().init();
         console.log(result.message);
     } catch (error: any) {
         console.error('Init failed:', error.message);

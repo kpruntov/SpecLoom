@@ -51,7 +51,7 @@ export class SchemaValidator {
     this.loadSchemas();
     const validate = this.ajv.getSchema(schemaName);
     if (!validate) {
-      throw new Error(`[SchemaValidator] Schema not found: ${schemaName}. This is a critical error. Check for schema loading issues.`);
+      throw new Error(`[SchemaValidator] Schema not found: ${schemaName}. Timestamp: ${Date.now()}. This is a critical error. Check for schema loading issues.`);
     }
     const valid = validate(data);
     if (!valid) {
