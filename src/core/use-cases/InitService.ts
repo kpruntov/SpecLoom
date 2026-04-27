@@ -84,7 +84,7 @@ export class InitService {
             routine: "Manual",
             status: "Pending",
             description: "Welcome to SpecLoom! This is a simple task to get you started. To complete it, run 'loom start TASK-000' and then 'loom complete TASK-000'.",
-            dependencies": [],
+            dependencies: [],
             priority: 0,
             execution_steps: [
                 "Run 'loom start TASK-000'",

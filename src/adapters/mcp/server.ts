@@ -530,7 +530,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
 
     if (name === 'loom_init') {
-      const initResult = await controller.init(args?.brownfield as string, args?.greenfield as boolean);
+      const initResult = await controller.init();
       return { content: [{ type: 'text', text: initResult.message }] };
     }
 
