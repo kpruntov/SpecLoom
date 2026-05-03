@@ -8,7 +8,7 @@ Explain the V-Model, CLI commands, and Protocol rules.
 
 ## Protocol
 1.  **Access Manuals:**
-    *   Refer to `.spec/core/protocol/` for definitive rules.
+    *   Refer to `.spec/core/roles/` for definitive rules.
     *   Refer to `docs/manual.md` for user guides.
 
 2.  **Explain Concepts:**

@@ -1,11 +1,11 @@
 {
   "name": "specloom",
-  "version": "4.3.0",
+  "version": "5.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "build": "shx rm -rf dist && tsc && shx cp -r src/assets dist/ && shx mkdir -p dist/core/prompts/standard_procedures && shx cp -r src/core/prompts/standard_procedures/* dist/core/prompts/standard_procedures/"
+    "build": "shx rm -rf dist && tsc && shx cp -r src/assets dist/"
   },
   "repository": {
     "type": "git",

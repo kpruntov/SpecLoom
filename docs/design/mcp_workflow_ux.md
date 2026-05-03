@@ -83,18 +83,18 @@ graph TD
     MCP -->|System Instruction| User
 ```
 
-### Protocol Decomposition (Micro-Protocols)
+### Protocol Decomposition (The Role Factory)
 
-The monolithic `master_agent_system_prompt.md` will be split into specialized "Micro-Protocols" stored in `src/core/prompts/standard_procedures/`:
+The monolithic system prompt has been split into specialized "Micro-Protocols" stored within the **Role Factory** (`.spec/core/roles/<role>/`):
 
-* `procedure_init.md`
-* `procedure_req.md`
-* `procedure_arch.md`
-* `procedure_plan.md`
-* `procedure_impl.md`
-* `procedure_verify.md`
+* `.spec/core/roles/analyst/`
+* `.spec/core/roles/architect/`
+* `.spec/core/roles/planner/`
+* `.spec/core/roles/developer/`
+* `.spec/core/roles/verifier/`
+* `.spec/core/roles/master/`
 
-This ensures the agent only loads the rules relevant to the current task (Context Efficiency).
+This structure automatically fuses both the "Protocol" (The Rules) and the "Procedures" (The Actions) into a single, highly constrained context window when the agent assumes a specific role via the `/assign` MCP tool.
 
 ---
 

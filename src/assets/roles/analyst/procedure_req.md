@@ -7,7 +7,7 @@ You are the tactical executor of the Requirements Phase.
 Elicit, Analyze, and Specify Requirements according to the **Requirements Agent Protocol**.
 
 ## Context Resources (Loaded Automatically)
-*   **Protocol:** `.spec/core/protocol/requirements_agent_prompt.md` (The Rules).
+*   **Protocol:** `.spec/core/roles/analyst/requirements_agent_prompt.md` (The Rules).
 *   **System Status:** `loom status` (Current Phase & Integrity).
 
 ## RFC 2119 Definitions

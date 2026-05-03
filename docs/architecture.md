@@ -48,7 +48,7 @@ The architecture enforces a physical separation of concerns mapping to the V-Mod
 
 | Directory | Layer | Purpose |
 | :--- | :--- | :--- |
-| `.spec/data/00_infastructure` | **Foundation** | Registry, Schemas, Protocols |
+| `.spec/data/00_infastructure` | **Foundation** | Registry, Schemas, Role Factory (`roles/`) |
 | `.spec/data/01_context` | **Context** | Product Scope, Stakeholders |
 | `.spec/data/02_pivots` | **Strategy** | Assumptions, Risk Management |
 | `.spec/data/03_users` | **Intent** | User Personas, User Requirements |

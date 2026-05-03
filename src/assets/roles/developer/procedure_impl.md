@@ -7,7 +7,7 @@ You are the tactical executor of the Implementation Phase.
 Implement `TASK` artifacts and produce `src/` code according to the **Implementation Agent Protocol**.
 
 ## Context Resources (Loaded Automatically)
-*   **Protocol:** `.spec/core/protocol/implementation_agent_prompt.md` (The Rules).
+*   **Protocol:** `.spec/core/roles/developer/implementation_agent_prompt.md` (The Rules).
 *   **System Status:** `loom status` (Current Phase & Integrity).
 
 ## RFC 2119 Definitions

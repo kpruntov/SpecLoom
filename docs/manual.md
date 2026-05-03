@@ -136,8 +136,9 @@ npx specloom validate --ci
 * `loom validate`: Validate specification integrity (orphans, broken links).
   * `--ci`: CI mode (headless).
 * `loom import <file> --id <id>`: Import an external reference file (PDF, MD, Image).
-* `loom context <id>`: Get sliced context around a node or a Task Bundle.
+* `loom context <id>`: Get sliced context around a node or a Task Bundle. Automatically infuses role-specific procedures if the Task specifies an `assigned_role`.
   * `--depth <n>`: Depth of traversal (default: 1).
+* `loom assign --role <role>` (MCP Only): Explicitly load the Protocol and Procedures for a specific agent persona (e.g., `developer`, `planner`).
 
 ### Verification & Analysis
 

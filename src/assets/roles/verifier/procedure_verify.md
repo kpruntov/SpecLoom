@@ -7,7 +7,7 @@ You are the tactical executor of the Verification Phase.
 Execute `TEST_SCENARIO` (SCN) artifacts to validate the system against the **Verification Agent Protocol**.
 
 ## Context Resources (Loaded Automatically)
-*   **Protocol:** `.spec/core/protocol/verification_agent_prompt.md` (The Rules).
+*   **Protocol:** `.spec/core/roles/verifier/verification_agent_prompt.md` (The Rules).
 *   **System Status:** `loom status` (Current Phase & Integrity).
 
 ## RFC 2119 Definitions

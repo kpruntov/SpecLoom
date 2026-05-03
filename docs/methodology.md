@@ -79,15 +79,28 @@ Design must be hierarchical and follow MBSE/Arcadia principles:
 1. **Functions First:** Define Logical Components (`LCOMP`) and prove them with Functional Chains (`FCHAIN`) before deciding on Physical Components (`PCOMP`).
 2. **ADR Mandate:** Document architectural decisions with `ADR-XXX`.
 
-### 3.4 The Task Execution Protocol
+### 3.4 Task Execution & Role Infusion
 
-1. **Plan:** Use `loom next` to identify the next task.
-2. **Lock:** Use `loom start` to claim the task.
-3. **Context:** Use `loom context` to get the necessary information.
-4. **Implement:** Write code and tests.
+1. **Plan & Assign:** The Planner groups work into `FCHAIN` Epics and assigns specific Roles (e.g., `Developer`, `Verifier`) to Tasks.
+2. **Lock & Infuse:** Use `loom start` to claim the task. The MCP server automatically injects the assigned Role Protocol into the agent's context.
+3. **Context:** Use `loom context` to get the necessary technical slice.
+4. **Implement:** Write code and local tests (TDD).
 5. **Complete:** Use `loom complete` to release the lock.
 
-### 3.5 The Four-Eyes Protocol
+### 3.5 The Two-Tiered Verification Protocol
+
+Verification in SpecLoom is divided into two distinct phases to prevent premature validation friction:
+
+1. **Tier 1: FCHAIN Integration Gate (The Epic Check):**
+   * *When:* During active development (Stage 6).
+   * *Goal:* Prove that the code components within an `FCHAIN` connect and data flows end-to-end.
+   * *Rule:* **Does NOT require formal `SCN` execution.** It is satisfied by manual human confirmation that the epic is "wired up" correctly.
+2. **Tier 2: Global Compliance Proof (Formal Verification):**
+   * *When:* After implementation matures (Stage 7).
+   * *Goal:* Prove that the system satisfies the contracted User/Functional Requirements.
+   * *Rule:* **Strictly REQUIRES formal `SCN` execution.** The Verifier must run `loom verify` and collect evidence.
+
+### 3.6 The Four-Eyes Protocol
 
 SpecLoom tracks the identity of the operator. To prevent bias, the session that `start`s a task cannot `verify` or `approve` it. A different session (identity) is required.
 

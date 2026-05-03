@@ -368,10 +368,10 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
 
                   // Load ALL Protocols dynamically
                   const protocols: Record<string, string> = {};
-                  const protocolPath = join(projectRoot, '.spec/core/protocol');
+                  const protocolPath = join(projectRoot, '.spec/core/roles/master');
                   
                   if (existsSync(protocolPath)) {
-                      const files = readdirSync(protocolPath).filter(f => f.endsWith('.md'));
+                      const files = readdirSync(protocolPath).filter(f => f.endsWith('.md') && !f.startsWith('procedure_'));
                       for (const file of files) {
                           protocols[file] = readFileSync(join(protocolPath, file), 'utf-8');
                       }
@@ -505,6 +505,40 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
     }
 
+    if (name === 'loom_assign') {
+        let role = args?.role as string;
+        const task_id = args?.task_id as string;
+        
+        if (task_id) {
+           const bundle = await controller.getContextBundle(task_id);
+           role = bundle.task.assigned_role;
+           if (!role) throw new Error(`Task ${task_id} does not have an assigned_role.`);
+        }
+        if (!role) throw new Error(`Must provide either role or task_id.`);
+        
+        const normalizedRole = role.toLowerCase().replace('businessanalyst', 'analyst');
+        const roleDir = join(projectRoot, '.spec/core/roles', normalizedRole);
+        let content = `### ASSIGNED ROLE: ${normalizedRole.toUpperCase()} ###\n\n`;
+        if (existsSync(roleDir)) {
+            const files = readdirSync(roleDir).filter(f => f.endsWith('.md'));
+            for (const f of files) {
+                content += readFileSync(join(roleDir, f), 'utf-8') + '\n\n';
+            }
+        } else {
+            // Fallback to assets
+            const fallbackDir = join(__dirname, '../../../../src/assets/roles', normalizedRole);
+            if (existsSync(fallbackDir)) {
+                 const files = readdirSync(fallbackDir).filter(f => f.endsWith('.md'));
+                 for (const f of files) {
+                     content += readFileSync(join(fallbackDir, f), 'utf-8') + '\n\n';
+                 }
+            } else {
+                 throw new Error(`Role directory not found: ${roleDir} or ${fallbackDir}`);
+            }
+        }
+        return { content: [{ type: 'text', text: content }] };
+    }
+
     if (name === 'loom_context') {
         let id = (args?.id as string) || (args?.node as string); // Backwards compat attempt
         if (!id) throw new Error("Missing 'id' parameter");
@@ -521,7 +555,35 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
         if (id.startsWith('TASK-')) {
              const result = await controller.getContextBundle(id);
-             return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+             let textOutput = JSON.stringify(result, null, 2);
+             
+             if (result.task?.assigned_role) {
+                 const normalizedRole = result.task.assigned_role.toLowerCase().replace('businessanalyst', 'analyst');
+                 const roleDir = join(projectRoot, '.spec/core/roles', normalizedRole);
+                 let roleContent = `### ACTIVE ROLE PROTOCOLS & PROCEDURES: ${normalizedRole.toUpperCase()} ###\n\n`;
+                 let found = false;
+                 if (existsSync(roleDir)) {
+                     const files = readdirSync(roleDir).filter(f => f.endsWith('.md'));
+                     for (const f of files) {
+                         roleContent += readFileSync(join(roleDir, f), 'utf-8') + '\n\n';
+                     }
+                     found = true;
+                 } else {
+                     const fallbackDir = join(__dirname, '../../../../src/assets/roles', normalizedRole);
+                     if (existsSync(fallbackDir)) {
+                         const files = readdirSync(fallbackDir).filter(f => f.endsWith('.md'));
+                         for (const f of files) {
+                             roleContent += readFileSync(join(fallbackDir, f), 'utf-8') + '\n\n';
+                         }
+                         found = true;
+                     }
+                 }
+                 if (found) {
+                     textOutput = roleContent + textOutput;
+                 }
+             }
+
+             return { content: [{ type: 'text', text: textOutput }] };
         } else {
              const depth = args?.depth ? parseInt(args.depth as string) : 1;
              const result = await controller.getContext(id, depth);

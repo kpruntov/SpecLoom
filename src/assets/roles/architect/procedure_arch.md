@@ -7,7 +7,7 @@ You are the tactical executor of the Architecture Phase using MBSE (Arcadia) pri
 Design the logical functions, system structure, interfaces, and data models in accordance with the **Architecture Agent Protocol**.
 
 ## Context Resources (Loaded Automatically)
-*   **Protocol:** `.spec/core/protocol/architecture_agent_prompt.md` (The Rules).
+*   **Protocol:** `.spec/core/roles/architect/architecture_agent_prompt.md` (The Rules).
 *   **System Status:** `loom status` (Current Phase & Integrity).
 
 ## RFC 2119 Definitions

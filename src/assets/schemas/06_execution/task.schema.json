@@ -12,6 +12,11 @@
       "description": "The mandatory operating procedure to follow (enforces specific DoD and commands)."
     },
     "objective": { "type": "string" },
+    "assigned_role": {
+      "type": "string",
+      "enum": ["BusinessAnalyst", "Architect", "Planner", "Developer", "Verifier", "Master"],
+      "description": "The specific role responsible for executing this task."
+    },
     "trace_to": {
       "type": "object",
       "properties": {

@@ -39,13 +39,13 @@ export class InitService {
         if (existsSync(assetsDir)) {
              cpSync(join(assetsDir, 'schemas'), join(this.projectRoot, '.spec/core/schemas'), { recursive: true });
              cpSync(join(assetsDir, 'templates'), join(this.projectRoot, '.spec/core/templates'), { recursive: true });
-             cpSync(join(assetsDir, 'protocol'), join(this.projectRoot, '.spec/core/protocol'), { recursive: true });
+             cpSync(join(assetsDir, 'roles'), join(this.projectRoot, '.spec/core/roles'), { recursive: true });
         } else {
              console.warn(`Warning: Could not find assets directory to scaffold .spec/core. Looked in: ${assetsDir}`);
              // Create empty dirs as fallback
              mkdirSync(join(this.projectRoot, '.spec/core/schemas'), { recursive: true });
              mkdirSync(join(this.projectRoot, '.spec/core/templates'), { recursive: true });
-             mkdirSync(join(this.projectRoot, '.spec/core/protocol'), { recursive: true });
+             mkdirSync(join(this.projectRoot, '.spec/core/roles'), { recursive: true });
         }
 
         // Create Registry

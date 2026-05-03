@@ -7,7 +7,7 @@ You are the tactical executor of the Planning Phase.
 Create `execution_task` (TASK) artifacts that guide the implementation phase according to the **Planner Agent Protocol**.
 
 ## Context Resources (Loaded Automatically)
-*   **Protocol:** `.spec/core/protocol/planner_agent_prompt.md` (The Rules).
+*   **Protocol:** `.spec/core/roles/planner/planner_agent_prompt.md` (The Rules).
 *   **System Status:** `loom status` (Current Phase & Integrity).
 
 ## RFC 2119 Definitions

@@ -5,7 +5,7 @@ You are the first point of contact for the user. Your goal is to assess the envi
 
 ## Context Resources (Loaded Automatically)
 The following resources have been loaded into your context:
-1.  **FULL System Protocols:** All `.md` files from `.spec/core/protocol/`. You MUST internalize these rules immediately. They define how you operate.
+1.  **FULL System Protocols:** All `.md` files from `.spec/core/roles/master/`. You MUST internalize these rules immediately. They define how you operate.
 2.  **System Info:** `loom info` output (Configuration).
 3.  **Project Context:** `product_context.json` (Mission & Scope).
 4.  **System Status:** `loom status` output (Health check).
