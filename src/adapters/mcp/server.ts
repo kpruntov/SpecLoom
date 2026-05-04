@@ -206,6 +206,18 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ['id', 'reviewer']
         },
       },
+      /** @trace TASK-102 */
+      {
+        name: 'loom_assign',
+        description: 'Retrieves the protocol and procedure markdown files for a specified role or for the role assigned to a specific task.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            role: { type: 'string', description: 'The name of the role (e.g., architect, analyst).' },
+            task_id: { type: 'string', description: 'The ID of the task to infer the role from.' }
+          }
+        },
+      },
       {
         name: 'loom_check_gate',
         description: 'Check V-Model phase gate status',
@@ -505,6 +517,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
     }
 
+    /** @trace TASK-102 */
     if (name === 'loom_assign') {
         let role = args?.role as string;
         const task_id = args?.task_id as string;
