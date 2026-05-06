@@ -1,11 +1,12 @@
 {
   "routine": "Feature",
+  "assigned_role": "Developer",
   "verification_regime": "Automated",
   "execution_steps": [
     "Run 'loom start <task_id>' to lock active context",
     "Run 'loom context <task_id>' to ingest requirements",
-    "Create/Update Test File (Red Phase)",
-    "Implement Code in src/ (Green Phase) - MUST add @trace <task_id>",
+    "[[REPLACE_WITH_SPECIFIC_TEST_STEP]]: e.g., Create/Update Test File for feature X (Red Phase)",
+    "[[REPLACE_WITH_SPECIFIC_IMPL_STEP]]: e.g., Implement Code for feature X in src/ (Green Phase) - MUST add @trace <task_id>",
     "Run Tests to verify (Refactor Phase)",
     "Review implementation against Definition of Done (DoD) from the task context. Do not complete unless all criteria are met.",
     "Execute the command defined in tdd_cycle.verification_command and ensure the output indicates a passing state BEFORE calling loom_complete.",
@@ -13,6 +14,7 @@
   ],
   "definition_of_done": [
     "Tests pass",
+    "[[REPLACE_WITH_SPECIFIC_CRITERIA]]: e.g., Feature X works correctly as defined in FR-Y",
     "All modified source files have @trace annotation",
     "loom validate passes (Checks Traces/Metadata only, DOES NOT run code tests)"
   ],

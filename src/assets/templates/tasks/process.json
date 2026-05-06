@@ -1,14 +1,15 @@
 {
   "routine": "Process",
+  "assigned_role": "Master",
   "execution_steps": [
     "Run 'loom init' (if applicable)",
-    "Execute sub-tasks",
+    "[[REPLACE_WITH_SPECIFIC_IMPL_STEP]]: e.g., Execute sub-tasks to achieve process goal X",
     "Run 'loom validate'",
     "Ensure all process objectives are met BEFORE calling loom_complete.",
     "Run 'loom complete <task_id>'"
   ],
   "definition_of_done": [
-    "Process goal achieved",
+    "[[REPLACE_WITH_SPECIFIC_CRITERIA]]: e.g., Process goal X is achieved",
     "System state is valid",
     "loom validate passes (Checks Traces/Metadata only, DOES NOT run code tests)"
   ]
