@@ -34,6 +34,9 @@ You are responsible for decomposing high-level Requirements and Designs into act
 
 ### 3. Context Definition
 *   **Precision:** List specific file paths in the `context` array. Avoid broad glob patterns if possible.
+*   **Strict Context vs. Trace Separation:** 
+    *   **`trace_to`:** Use this ONLY for V-Model specification artifacts (e.g., `FR-XXX`, `LCOMP-XXX`).
+    *   **`context.relevant_files`:** Use this ONLY for physical application source code (e.g., `src/main.ts`) or external references in `.spec/attachments/`. **NEVER** put `.spec/data/...` JSON files in this array. The engine automatically bundles specifications via the `trace_to` links.
 *   **Relevance:** Only include what is strictly necessary. Overloading context confuses the implementation agent.
 
 ### 4. Architectural Context (Mandatory for Features)

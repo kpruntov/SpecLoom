@@ -86,7 +86,14 @@
     "context": {
        "type": "object",
        "properties": {
-           "relevant_files": { "type": "array", "items": { "type": "string" } }
+           "relevant_files": { 
+             "type": "array", 
+             "items": { 
+               "type": "string",
+               "pattern": "^(?!\\.?spec/(?!attachments/)).+$",
+               "description": "MUST ONLY contain application source code paths (e.g., 'src/...', 'tests/...') or '.spec/attachments/'. MUST NEVER contain '.spec/data/' artifacts, as these are automatically resolved via 'trace_to'."
+             } 
+           }
        }
     },
     "design_output": {
