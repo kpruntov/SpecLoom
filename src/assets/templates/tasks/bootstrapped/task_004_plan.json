@@ -18,9 +18,11 @@
   "execution_steps": [
     "Run 'loom start TASK-004'",
     "Run 'loom context TASK-004'",
-    "Identify Foundation Tasks",
-    "Decompose Functional Chains into Feature Tasks",
-    "Sequence Dependencies",
+    "Review ALL architectural artifacts (FCHAIN, LCOMP, API, DATA, UIC) and recommended FRs",
+    "Identify and plan Foundation Tasks (Repo, Setup CI, DB)",
+    "Decompose work vertically by FCHAIN into sequence of atomic Feature Tasks",
+    "Add Human Integration Gate Tasks at the end of every FCHAIN group",
+    "Sequence Dependencies chronologically",
     "Run 'loom next' to verify plan",
     "Ask user for confirmation to complete task",
     "Run 'loom complete TASK-004'"
