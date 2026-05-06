@@ -32,5 +32,6 @@
     "All architecture and functions covered by tasks",
     "Dependency graph is acyclic",
     "Validation passes"
-  ]
+  ],
+  "assigned_role": "Master"
 }

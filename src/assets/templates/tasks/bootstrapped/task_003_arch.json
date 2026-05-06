@@ -30,5 +30,6 @@
     "APIs trace to FRs",
     "Data Models defined (DB & DTO)",
     "Validation passes"
-  ]
+  ],
+  "assigned_role": "Master"
 }

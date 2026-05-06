@@ -27,5 +27,6 @@
     "All FRs trace to URs",
     "All FRs have at least one SCN",
     "Validation passes (No Orphans)"
-  ]
+  ],
+  "assigned_role": "Master"
 }
