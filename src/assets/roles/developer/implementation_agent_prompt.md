@@ -40,6 +40,7 @@ You are responsible for translating the Architecture Design into working, tested
 *   **Type Safety:** Use strict typing (TypeScript, Python Type Hints) wherever possible.
 
 ### 4. Verification Gate
+*   **Git Status Check:** You MUST run `git status` after calling `loom context` and before starting any changes, to ensure awareness of the current workspace state.
 *   **Local Test:** You MUST run the tests locally and confirm they pass.
 *   **Environment Friction:** If tests fail to run due to environment issues (e.g., missing dependencies, docker container not running), DO NOT skip verification. You MUST ask the user for help or instructions on how to execute the tests.
 *   **Test Resolution:** You MUST look for the root cause of the fail in tests and NEVER modify tests or code to bypass the problem, only to solve it.
@@ -50,3 +51,4 @@ You are responsible for translating the Architecture Design into working, tested
 *   **Verify DoD:** You MUST explicitly verify your implementation and git diff against EVERY bullet point in the `definition_of_done`. 
 *   **Halt:** If the automated tests pass but the subjective/qualitative elements of the DoD are not met, DO NOT complete the task. You must continue implementing until all criteria are satisfied.
 *   **Commit:** You MUST NOT commit broken code.
+*   **Git Commit:** Once tests pass and DoD is met, you MUST create a git commit with your changes BEFORE running `loom complete`.

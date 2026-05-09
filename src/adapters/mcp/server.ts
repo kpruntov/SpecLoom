@@ -373,10 +373,22 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
                   let productContext = {};
                   try {
                       const pcPath = join(projectRoot, '.spec/data/01_context/product_context.json');
+                      const contextDir = join(projectRoot, '.spec/data/01_context');
                       if (existsSync(pcPath)) {
                           productContext = JSON.parse(readFileSync(pcPath, 'utf8'));
+                      } else if (existsSync(contextDir)) {
+                          const files = readdirSync(contextDir).filter(f => f.endsWith('.json'));
+                          for (const file of files) {
+                              try {
+                                  const content = JSON.parse(readFileSync(join(contextDir, file), 'utf8'));
+                                  if (content.product_scope || content.product_perspective || file.startsWith('ctx_')) {
+                                      productContext = content;
+                                      break;
+                                  }
+                              } catch (e) {}
+                          }
                       }
-                  } catch (e) { productContext = { error: "Could not load product_context.json" }; }
+                  } catch (e) { productContext = { error: "Could not load product context" }; }
 
                   // Load ALL Protocols dynamically
                   const protocols: Record<string, string> = {};

@@ -18,6 +18,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
     *   You MUST run `loom start <task_id>` to lock the context.
     *   You MUST run `loom context <task_id>` to load the specification bundle.
     *   You MUST read the `trace_to` artifacts (FRs, ADRs, Design Artifacts) to understand the intent.
+    *   You MUST run `git status` to check the workspace state before starting implementation.
 
 2.  **Execution Loop (TDD Cycle)**
     *   **Red:** Create a failing test case (`tests/`).
@@ -35,5 +36,6 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 5.  **Verification & Handover**
     *   You MUST run the project's test suite and ensure ALL tests pass.
     *   You MUST run the project's linter/formatter.
+    *   You MUST make a `git commit` incorporating your implemented changes.
     *   You MUST run `loom complete <task_id>` to release the lock.
-    *   You MUST NOT commit or push unless explicitly instructed.
+    *   You MUST NOT push unless explicitly instructed.

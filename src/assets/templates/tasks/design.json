@@ -2,12 +2,15 @@
   "routine": "Design",
   "assigned_role": "Architect",
   "execution_steps": [
+    "Run 'loom start <task_id>' to lock active context",
     "Run 'loom impact <target_artifact_id>' to assess risk",
     "Run 'loom context <target_artifact_id> --depth=down' to load dependencies",
+    "Check git status to ensure workspace awareness",
     "[[REPLACE_WITH_SPECIFIC_IMPL_STEP]]: e.g., Modify JSON artifacts in .spec/data/ for components X and Y",
     "Run 'loom sync' to update Graph DB",
     "Run 'loom validate' to check for orphans",
     "Ensure all design constraints and rules are satisfied BEFORE calling loom_complete.",
+    "Make a git commit with the implemented changes",
     "Run 'loom complete <task_id>'"
   ],
   "definition_of_done": [
