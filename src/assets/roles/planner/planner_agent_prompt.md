@@ -28,7 +28,8 @@ You are responsible for decomposing high-level Requirements and Designs into act
 *   **The Gate Constraint:** If `FCHAIN-B` builds upon or logically follows `FCHAIN-A`, the very first implementation task of `FCHAIN-B` MUST list the **Integration Gate Task** of `FCHAIN-A` as a dependency. This guarantees that one complete vertical slice is functionally verified by a human before the next epic begins.
 *   **The Human Integration Gate (The Epic Check):** You MUST terminate every `FCHAIN` group with an Integration Gate Task.
     *   *Type:* `Process`
-    *   *Assigned Role:* `Verifier`
+    *   *Assigned Role:* `Verifier` (This is mandatory to ensure human check)
+    *   *Verification Regime:* `Manual` (This field must not be skipped)
     *   *Dependencies:* MUST depend on ALL implementation tasks within that `FCHAIN` Epic.
     *   *Definition of Done:* "Human User manually tests the application to confirm the end-to-end data flow and component integration described in FCHAIN-XXX is functional. No formal SCN sign-off is required at this stage."
 

@@ -17,19 +17,16 @@ npm install -g specloom
 
 ## 2. Initialization (Genesis Mode)
 
-Initialize the repository with a "Greenfield" (New Project) or "Brownfield" (Existing Code) setup.
+Initialize the repository with a command.
 
 ```bash
-loom init --greenfield
-# OR
-loom init --brownfield .
+loom init
 ```
-
 This creates the `.spec/` directory structure containing the system requirements, foundational context, and core protocols.
 
 ## 3. The Hybrid Workflow (Human-AI Collaboration)
 
-SpecLoom works best when an AI agent handles the heavy lifting via MCP Tools while humans make strategic decisions at Anchor Points.
+SpecLoom works best when an AI agent handles the heavy lifting via MCP Tools while humans make strategic decisions, reviews at Anchor Points.
 
 ### For Humans: Asynchronous Workflow
 
@@ -39,6 +36,8 @@ SpecLoom works best when an AI agent handles the heavy lifting via MCP Tools whi
 4. **Architecture:** Developer runs `/arch`. AI drafts logical/physical components, functional chains, and API contracts based on the approved requirements.
 5. **Handshake 2:** Human runs `/handshake` to agree on the Architecture Anchor.
 6. **Execution:** PO reprioritizes the backlog using `/prioritize`. Developers run `/impl` to get the next coding task.
+
+Notice that you do not need to run MCP commands (like `/vision` or `/arch`) manually; the AI agent will get all needed protocols from the task context.
 
 ## 4. MCP Integration (For AI Agents)
 
@@ -53,14 +52,16 @@ Add the following to your agent's configuration file:
   "mcpServers": {
     "specloom": {
       "command": "npx",
-      "args": ["-y", "specloom", "loom-server", "--dir", "."],
-      "env": {}
+      "args": [
+        "-y",
+        "--package",
+        "specloom",
+        "loom-server"
+      ]
     }
   }
 }
 ```
-
-*Note: The `--dir .` argument ensures the server initializes in the correct working directory of the project, not the IDE's application directory.*
 
 ## 5. Troubleshooting
 

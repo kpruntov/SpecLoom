@@ -96,11 +96,4 @@ The monolithic system prompt has been split into specialized "Micro-Protocols" s
 
 This structure automatically fuses both the "Protocol" (The Rules) and the "Procedures" (The Actions) into a single, highly constrained context window when the agent assumes a specific role via the `/assign` MCP tool.
 
----
 
-## 5. Migration Strategy
-
-1. **Refactor Protocols:** Split the master prompt.
-2. **Implement Engine Logic:** Create `PromptFactory` and `StateAnalyzer`.
-3. **Update MCP Adapter:** Map slash commands to the new factory.
-4. **Documentation:** Update `README.md` and `CLI_HELP.md` to feature the new commands as the primary interface.

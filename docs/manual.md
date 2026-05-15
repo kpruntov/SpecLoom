@@ -12,6 +12,7 @@ Install it once on your system to use the `loom` command anywhere.
 npm install -g specloom
 loom init
 ```
+Loom operates on top of the local directory even if installed globally.
 
 ### Option B: Run via NPX (Zero Install)
 
@@ -21,20 +22,14 @@ Run the latest version directly without installing anything.
 npx specloom init
 ```
 
-**Note:** If you run `npm install specloom` (without `-g`) in your project root, it will create a `node_modules` folder and `package.json`. This is standard behavior for local Node.js dependencies but is not necessary for using the CLI.
-
-## Getting Started
-
-SpecLoom is a "Guardian" for your codebase. It enforces a strict V-Model (Requirements -> Design -> Code -> Verification).
-
-**For the complete Workflow Manual, see [WORKFLOW.md](WORKFLOW.md).**
+**Note:** If you run `npm install specloom` (without `-g`) in your project root, it will create a `node_modules` folder and `package.json`. This is standard behavior for local Node.js dependencies, but it is not necessary for using the CLI.
 
 ## Quick Start
 
 1. **Initialize:**
 
     ```bash
-    loom init --greenfield
+    loom init
     ```
 
 2. **Follow the Plan:**
@@ -81,10 +76,11 @@ Tasks with `verification_regime: Light` or `Strict` go to `Review` status upon c
     * Selecting a task
     * Viewing the Diff
     * Approving (updates status to Done) or Rejecting
+  
+## Working with MCP server
+To understand deeply how to work with MCP tools and command - **[MCP Workflow](docs/mcp_workflow.md)**
 
 ## CI/CD Integration
-<!-- @trace TASK-069 -->
-
 SpecLoom can be integrated into your CI/CD pipeline to enforce the V-Model at the Pull Request level. We provide a GitHub Action for easy integration.
 
 ### GitHub Action
@@ -118,8 +114,6 @@ npx specloom validate --ci
 ### Initialization
 
 * `loom init`: Initialize SpecLoom in the current directory.
-  * `--greenfield`: Start a new project.
-  * `--brownfield <path>`: Integrate with existing code.
 * `loom info`: Show tool configuration and environment info.
 
 ### Task Management (Execution Stage)
@@ -144,7 +138,7 @@ npx specloom validate --ci
 
 * `loom verify --id <id>`: Run a Verification Scenario (interactive).
 * `loom status`: Show current V-Model status and progress.
-* `loom impact <id>`: Analyze impact of a change to an artifact.
+* `loom impact <id>`: Analyze the impact of a change to an artifact.
 * `loom generate --out <dir>`: Generate SRS/SDD documents.
 
 ## Troubleshooting

@@ -70,6 +70,7 @@ export class TraceValidator {
                 const fileContent = await readFile(fullPath, 'utf-8');
                 
                 for (const reqId of targetReqs) {
+                    if (reqId.startsWith('CON-')) continue;
                     if (!fileContent.includes(`@trace ${reqId}`)) {
                         orphans.push(`${content.id} (Missing Trace: ${reqId})`);
                     }

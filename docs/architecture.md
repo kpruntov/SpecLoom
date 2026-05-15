@@ -10,6 +10,7 @@ SpecLoom operates as a hybrid system: part **CLI tool** for human developers and
 graph TD
     User[Human Developer] -->|CLI Command| CLI[CLI Adapter]
     Agent[AI Agent] -->|MCP Protocol| MCP[MCP Adapter]
+    Agent[AI Agent] -->|CLI Command| CLI[CLI Adapter]
     
     subgraph SpecLoom Core
         CLI --> Controller[SpecController]
@@ -28,19 +29,19 @@ graph TD
 
 ### 2.1 The Traceability Graph
 
-At the heart of SpecLoom is a **Directed Acyclic Graph (DAG)** that maps every artifact in the software lifecycle.
+At the heart of SpecLoom is a **Graph** that maps every artifact in the software lifecycle.
 
-* **Storage:** The source of truth is a set of human-readable JSON files in `.spec/data/`.
+* **Storage:** The source of truth is a set of standardized JSON files in `.spec/data/`.
 * **Indexing:** For performance, these files are indexed into a local SQLite database (`.spec/graph.db`).
 * **Nodes:** Every artifact (User Story, API Endpoint, Test Case, Task) is a node.
 * **Edges:** Relationships (traces) connect nodes (e.g., `FR-001` *satisfies* `UR-005`).
 
 ### 2.2 The Dual Interface Strategy
 
-To support the HADD (Human-Augmented Design & Development) framework, SpecLoom exposes identical functionality through two interfaces:
+To support the HADD (Human-AI Design & Development) framework, SpecLoom exposes identical functionality through two interfaces:
 
-1. **CLI (Commander.js):** Standard unix-style commands for CI/CD and human usage.
-2. **MCP Server (Model Context Protocol):** A JSON-RPC over Stdio interface that allows AI Agents (Cursor, Windsurf, Claude) to query the graph and perform actions as tools.
+1. **CLI (Commander.js):** Standard Unix-style commands for CI/CD and human usage.
+2. **MCP Server (Model Context Protocol):** A JSON-RPC over Stdio interface that allows AI Agents (Cursor, Windsurf, Claude) to query the **local** graph and perform actions as tools.
 
 ### 2.3 Directory Structure (The V-Model Spine)
 
@@ -166,9 +167,3 @@ Enforces the rules of the methodology.
 
 * **Gatekeeping:** Prevents moving to Implementation if Design is missing.
 * **Identity Checks:** Enforces the "Four-Eyes Principle" (Implementer != Reviewer).
-
-## 5. Architectural Decisions (ADRs)
-
-* **ADR-001: Embedded Graph Database:** We use `better-sqlite3` for complex queries while keeping JSON as the git-friendly storage format.
-* **ADR-002: Dual-Interface Core:** Core logic is isolated from the presentation layer to ensure parity between CLI and MCP.
-* **ADR-003: Optimistic Locking:** We use file-based locks to handle concurrency between multiple agents without a central server.
