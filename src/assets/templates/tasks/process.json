@@ -8,6 +8,7 @@
     "[[REPLACE_WITH_SPECIFIC_IMPL_STEP]]: e.g., Execute sub-tasks to achieve process goal X",
     "Run 'loom validate'",
     "Ensure all process objectives are met BEFORE calling loom_complete.",
+    "Create or update documentation (technical, user, docstring) if applicable",
     "Make a git commit with the implemented changes",
     "Run 'loom complete <task_id>'"
   ],

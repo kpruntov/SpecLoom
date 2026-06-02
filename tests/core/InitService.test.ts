@@ -49,10 +49,6 @@ describe('InitService', () => {
         expect(existsSync(registryPath)).toBe(true);
         const registryContent = JSON.parse(readFileSync(registryPath, 'utf-8'));
         expect(registryContent).toEqual({ entries: [] });
-
-        // Check if simple mode "Hello World" task was created
-        const helloTaskPath = join(projectRoot, '.spec/data/06_execution/task_000_hello_world.json');
-        expect(existsSync(helloTaskPath)).toBe(true);
     });
 
     it('should not initialize if .spec directory already exists', async () => {

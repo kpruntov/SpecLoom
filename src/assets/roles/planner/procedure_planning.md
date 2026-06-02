@@ -24,6 +24,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
     *   **Sequence:** Use `dependencies` to order tasks (Foundation -> Feature).
     *   **Trace:** Ensure every task traces to a parent `FR` or `ADR`.
     *   **Trace to Design:** For Feature tasks, you MUST add traces to all relevant design nodes (`LCOMP`, `PCOMP`, etc.) in the `trace_to.design_nodes` field.
+    *   **Integration Gate:** You MUST verify that you have added a Manual Integration Gate task at the end of every FCHAIN epic.
 
 3.  **Execution (File Creation)**
     *   **Create Files:** You MUST generate **ONE JSON file PER artifact** (`TASK-XXX.json`). (Do NOT combine).

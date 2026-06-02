@@ -36,6 +36,13 @@ export class InitService {
         const __dirname = dirname(__filename);
         const assetsDir = resolve(__dirname, '../../assets');
         
+        let cliVersion = 'unknown';
+        const pkgPath = resolve(__dirname, '../../../package.json');
+        if (existsSync(pkgPath)) {
+            const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
+            cliVersion = pkg.version;
+        }
+
         if (existsSync(assetsDir)) {
              cpSync(join(assetsDir, 'schemas'), join(this.projectRoot, '.spec/core/schemas'), { recursive: true });
              cpSync(join(assetsDir, 'templates'), join(this.projectRoot, '.spec/core/templates'), { recursive: true });
@@ -51,6 +58,10 @@ export class InitService {
         // Create Registry
         const registry = { entries: [] };
         writeFileSync(join(this.projectRoot, '.spec/data/00_infastructure/registry.json'), JSON.stringify(registry, null, 2));
+
+        // Create Config Lock
+        const configPath = join(this.projectRoot, '.spec/loom.config.json');
+        writeFileSync(configPath, JSON.stringify({ version: cliVersion }, null, 2));
 
         // Bootstrap SYS-DEFINE (System Requirement for Process Tasks)
         const sysDefine = {
@@ -76,29 +87,7 @@ export class InitService {
             }
         }
 
-        // Create a welcoming "Hello World" task.
-        const helloTask = {
-            id: "TASK-000",
-            title: "Hello World: Your First Task",
-            type: "Process",
-            routine: "Manual",
-            status: "Pending",
-            description: "Welcome to SpecLoom! This is a simple task to get you started. To complete it, run 'loom start TASK-000' and then 'loom complete TASK-000'.",
-            dependencies: [],
-            priority: 0,
-            execution_steps: [
-                "Run 'loom start TASK-000'",
-                "Run 'loom complete TASK-000'"
-            ],
-            definition_of_done: [
-                "Task is marked as 'Done'."
-            ],
-            trace_to: {
-                "system_requirements": ["SYS-DEFINE"]
-            }
-        };
-        writeFileSync(join(this.projectRoot, '.spec/data/06_execution/task_000_hello_world.json'), JSON.stringify(helloTask, null, 2));
         
-        return { message: 'SpecLoom initialized successfully. Your first task is TASK-000.' };
+        return { message: 'SpecLoom initialized successfully.' };
     }
 }

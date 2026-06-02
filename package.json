@@ -1,6 +1,6 @@
 {
   "name": "specloom",
-  "version": "5.2.4",
+  "version": "5.2.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "@types/node": "^25.2.0",
     "@types/pdf-parse": "^1.1.5",
     "@types/treeify": "^1.0.3",
+    "@types/update-notifier": "^6.0.8",
     "jest": "^30.2.0",
     "shx": "^0.4.0",
     "ts-jest": "^29.4.6",
@@ -56,6 +57,7 @@
     "ignore": "^7.0.5",
     "pdf-parse": "^2.4.5",
     "simple-git": "^3.30.0",
-    "treeify": "^1.1.0"
+    "treeify": "^1.1.0",
+    "update-notifier": "^7.3.1"
   }
 }

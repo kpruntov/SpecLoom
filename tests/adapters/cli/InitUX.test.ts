@@ -19,21 +19,8 @@ describe('InitService UX', () => {
         // Mocking the prompt to return false for Simple Mode if no args
         // Or just pass boolean false
         const result = await initService.init(undefined, false);
-        expect(result.message).toBe('SpecLoom initialized successfully. Your first task is TASK-000.');
+        expect(result.message).toBe('SpecLoom initialized successfully.');
         expect(existsSync(join(testDir, '.spec'))).toBe(true);
         expect(existsSync(join(testDir, '.spec/data/06_execution'))).toBe(true);
-    });
-
-    it('should generate Hello World task in simple mode', async () => {
-        const initService = new InitService(testDir);
-        const result = await initService.init(undefined, true);
-        expect(result.message).toContain('TASK-000');
-        
-        const helloTaskPath = join(testDir, '.spec/data/06_execution/task_000_hello_world.json');
-        expect(existsSync(helloTaskPath)).toBe(true);
-
-        const taskContent = JSON.parse(readFileSync(helloTaskPath, 'utf-8'));
-        expect(taskContent.id).toBe('TASK-000');
-        expect(taskContent.title).toBe('Hello World: Your First Task');
     });
 });

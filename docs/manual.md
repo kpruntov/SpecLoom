@@ -115,6 +115,7 @@ npx specloom validate --ci
 
 * `loom init`: Initialize SpecLoom in the current directory.
 * `loom info`: Show tool configuration and environment info.
+* `loom upgrade`: Sync local project artifacts (`.spec/core`) with the latest installed global CLI version.
 
 ### Task Management (Execution Stage)
 

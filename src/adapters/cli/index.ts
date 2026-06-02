@@ -42,6 +42,21 @@ program
   });
 
 program
+  .command('upgrade')
+  .description('Upgrade local SpecLoom project configuration and assets to match CLI version')
+  .action(async () => {
+    try {
+        const result = await getController().upgrade();
+        console.log(result.message);
+    } catch (error: any) {
+        console.error('Upgrade failed:', error.message);
+        process.exit(1);
+    } finally {
+        getController().dispose();
+    }
+  });
+
+program
   .command('import')
   .description('Import an external reference file')
   .argument('<file>', 'Path to file')

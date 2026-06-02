@@ -36,11 +36,19 @@ describe('Business Rule Validation', () => {
         }));
         // Satisfy FR with a Task
         db.upsertNode(new SpecNode('TASK-001', NodeType.EXECUTION_TASK, { id: 'TASK-001' }));
-        
+        // Provide Design Trace proof for FR (Hollow requirement check)
+        db.upsertNode(new SpecNode('FCHAIN-001', NodeType.FUNCTIONAL_CHAIN, { id: 'FCHAIN-001' }));
+        // Provide Verification Trace proof for FR (Untested check)
+        db.upsertNode(new SpecNode('SCN-001', NodeType.TEST_SCENARIO, { id: 'SCN-001' }));
+
         // Link FR -> BR
         db.addLink('FR-001', 'BR-001', 'requirements'); 
         // Link TASK -> FR
         db.addLink('TASK-001', 'FR-001', 'requirements');
+        // Link FCHAIN -> FR
+        db.addLink('FCHAIN-001', 'FR-001', 'requirements');
+        // Link SCN -> FR
+        db.addLink('SCN-001', 'FR-001', 'requirements');
 
         const report = validator.validate();
         expect(report.status).toBe('PASS');

@@ -1,4 +1,5 @@
 import { GraphDatabase } from '../../infrastructure/sqlite/GraphDatabase.js';
+import { NodeType } from '../domain/SpecNode.js';
 
 export interface ValidationReport {
   status: 'PASS' | 'FAIL' | 'WARN';
@@ -84,8 +85,8 @@ export class SemanticValidator {
       if (!node) continue;
 
       // 1. Check for Unsatisfied Requirements (No children/implementation)
-      const mustBeSatisfied = ['business_rule', 'user_requirement', 'functional_requirement'];
-      if (mustBeSatisfied.includes(node.type)) {
+      const mustBeSatisfied = [NodeType.BUSINESS_RULE, NodeType.USER_REQUIREMENT, NodeType.FUNCTIONAL_REQUIREMENT];
+      if (mustBeSatisfied.includes(node.type as any)) {
           const children = this.db.getTraceSources(id);
           if (children.length === 0) {
               orphans.push(`${id} (Unsatisfied)`);
@@ -94,29 +95,38 @@ export class SemanticValidator {
 
       // Root types don't need parents
       const rootTypes = [
-        'context', 
-        'stakeholder', 
-        'user_char', 
-        'business_rule', 
-        'non_functional_requirement', 
-        'constraint', 
-        'assumption',
-        'system_requirement',
-        'reference_source'
+        NodeType.CONTEXT, 
+        NodeType.STAKEHOLDER, 
+        NodeType.USER_CHAR, 
+        NodeType.BUSINESS_RULE, 
+        NodeType.NON_FUNCTIONAL_REQUIREMENT, 
+        NodeType.CONSTRAINT, 
+        NodeType.ASSUMPTION,
+        NodeType.SYSTEM_REQUIREMENT,
+        NodeType.REFERENCE_SOURCE
       ];
-      
-      if (rootTypes.includes(node.type)) {
+
+      if (rootTypes.includes(node.type as any)) {
         continue;
       }
 
       const parents = this.db.getTraceTargets(id);
       if (parents.length === 0) {
         orphans.push(id);
-      } else if (node.type === 'functional_requirement') {
+      } else if (node.type === NodeType.USER_REQUIREMENT) {
+          // Strict Lineage Check for UR: A UR MUST be realized by a Functional Chain (FCHAIN)
+          const children = this.db.getTraceSources(id);
+          const childNodes = children.map(cid => this.db.getNode(cid));
+          const hasFCHAIN = childNodes.some(c => c && c.type === NodeType.FUNCTIONAL_CHAIN);
+
+          if (!hasFCHAIN) {
+              orphans.push(`${id} (Lacks Design Proof: No Functional Chain)`);
+          }
+      } else if (node.type === NodeType.FUNCTIONAL_REQUIREMENT) {
           // Strict Lineage Check: An FR must come from a Driver (UR, BR, NFR, CON)
           const parentNodes = parents.map(pid => this.db.getNode(pid));
           const hasDriver = parentNodes.some(p => 
-              p && ['user_requirement', 'business_rule', 'non_functional_requirement', 'constraint'].includes(p.type)
+              p && [NodeType.USER_REQUIREMENT, NodeType.BUSINESS_RULE, NodeType.NON_FUNCTIONAL_REQUIREMENT, NodeType.CONSTRAINT].includes(p.type as any)
           );
           
           if (!hasDriver) {
@@ -128,7 +138,7 @@ export class SemanticValidator {
           const children = this.db.getTraceSources(id);
           const childNodes = children.map(cid => this.db.getNode(cid));
           const hasDesignTrace = childNodes.some(c => 
-             c && ['api_contract', 'logical_component', 'physical_component', 'functional_chain', 'data_model', 'adr', 'execution_task'].includes(c.type)
+             c && [NodeType.API_CONTRACT, NodeType.LOGICAL_COMPONENT, NodeType.PHYSICAL_COMPONENT, NodeType.FUNCTIONAL_CHAIN, NodeType.DATA_MODEL, NodeType.ADR, NodeType.EXECUTION_TASK].includes(c.type as any)
           );
           
           if (!hasDesignTrace) {

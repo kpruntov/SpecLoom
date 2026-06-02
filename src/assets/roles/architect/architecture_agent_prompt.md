@@ -34,6 +34,7 @@ You MUST base your design on the following Top-Down refinement sequence.
 *   **Purpose:** To validate the Logical Architecture dynamically.
 *   **Action:** Create `FCHAIN-XXX` artifacts for critical Use Cases (`UR`s).
 *   **Rule:** A Functional Chain is a step-by-step sequence. Each step MUST reference a specific function defined inside an `LCOMP`. You CANNOT skip this step. If the chain is broken or missing a step, you MUST return and update the `LCOMP`s.
+*   **Exhaustive Mapping Constraint:** You MUST NOT select only "critical" User Requirements (`UR`s). EVERY User Requirement MUST be traced to at least one Functional Chain. FCHAINs are the primary organizational center and confirmation of architecture validity. While it does not need to be a 1:1 mapping (multiple URs can be satisfied by a single FCHAIN), no UR can be left unmapped.
 
 ### 3. Physical Architecture (PA)
 *   **Purpose:** To define *how* the system will be developed, built, and deployed to satisfy allocated functions (`FR`s) and Non-Functional Requirements (`NFR`s) like performance, scale, and security.

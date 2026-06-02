@@ -10,6 +10,7 @@
     "Run 'loom sync' to update Graph DB",
     "Run 'loom validate' to check for orphans",
     "Ensure all design constraints and rules are satisfied BEFORE calling loom_complete.",
+    "Create or update documentation (technical, user, docstring) if applicable",
     "Make a git commit with the implemented changes",
     "Run 'loom complete <task_id>'"
   ],

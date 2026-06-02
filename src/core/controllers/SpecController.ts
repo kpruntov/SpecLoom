@@ -9,8 +9,9 @@ import { InitService } from '../use-cases/InitService.js';
 import { DocGenerator } from '../use-cases/DocGenerator.js';
 import { StateAnalyzer } from '../engine/StateAnalyzer.js';
 import { SummaryGenerator } from '../use-cases/SummaryGenerator.js';
-import { existsSync, copyFileSync, mkdirSync } from 'fs';
-import { join, basename } from 'path';
+import { existsSync, copyFileSync, mkdirSync, readFileSync } from 'fs';
+import { join, basename, resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 export class SpecController {
   private engine?: SpecEngine;
@@ -60,6 +61,27 @@ export class SpecController {
       if (!this.db || !this.engine) {
           throw new Error("SpecLoom is not initialized. Run 'loom init' first.");
       }
+
+      // Check version lock
+      try {
+          const configPath = join(this.projectRoot, '.spec/loom.config.json');
+          if (existsSync(configPath)) {
+              const config = JSON.parse(readFileSync(configPath, 'utf-8'));
+              
+              const __filename = fileURLToPath(import.meta.url);
+              const __dirname = dirname(__filename);
+              const pkgPath = resolve(__dirname, '../../../package.json');
+              
+              if (existsSync(pkgPath)) {
+                  const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
+                  if (config.version && pkg.version && config.version !== pkg.version) {
+                      console.warn(`\x1b[33m[WARNING] SpecLoom CLI (v${pkg.version}) is newer than the project config (v${config.version}). Run 'loom upgrade' to sync local project files.\x1b[0m\n`);
+                  }
+              }
+          }
+      } catch (e) {
+          // Silent catch for version check errors to avoid blocking normal commands
+      }
   }
 
   /**
@@ -69,6 +91,13 @@ export class SpecController {
       const result = await this.initService.init();
       this._initializeServices(); // Wake up services immediately
       return result;
+  }
+
+  public async upgrade() {
+      this.ensureInitialized();
+      const { UpgradeService } = await import('../use-cases/UpgradeService.js');
+      const upgradeService = new UpgradeService(this.projectRoot);
+      return await upgradeService.upgrade();
   }
 
   public async generateDocs(outDir?: string) {
